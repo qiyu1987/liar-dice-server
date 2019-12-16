@@ -1,13 +1,12 @@
 const Sequelize = require("sequelize")
-
 const db = require("../db")
 
-const Room = db.define("room", {
-	name: {
+const User = db.define("user", {
+	username: {
 		type: Sequelize.STRING,
 		allowNull: false,
 		unique: true
 	}
 })
 
-module.exports = Room
+module.exports = User
