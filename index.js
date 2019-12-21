@@ -8,7 +8,7 @@ const Room = require("./room/model")
 const User = require("./user/model")
 db.sync({ force: true }).then(async () => {
 	try {
-		const userList = [{ username: "yuki" }, { username: "xiaodan" }]
+		const userList = [{ name: "yuki" }, { name: "xiaodan" }]
 		await User.bulkCreate(userList)
 		const roomList = [{ name: "room1" }, { name: "room2" }]
 		await Room.bulkCreate(roomList)
