@@ -5,8 +5,8 @@ const router = new Router()
 function factory(stream) {
 	const router = new Router()
 
-	route
-	router.post("room", async (req, res, next) => {
+	router.put("")
+	router.post("/room", async (req, res, next) => {
 		try {
 			const room = await Room.create(req.body)
 
