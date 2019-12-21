@@ -3,9 +3,19 @@ const bodyParser = require("body-parser")
 const cors = require("cors")
 const Sse = require("json-sse")
 
+const db = require("./db")
 const Room = require("./room/model")
-
-const roomFactory = require("./room/router")
+const User = require("./user/model")
+db.sync({ force: true }).then(async () => {
+	try {
+		const userList = [{ username: "yuki" }, { username: "xiaodan" }]
+		await User.bulkCreate(userList)
+		const roomList = [{ name: "room1" }, { name: "room2" }]
+		await Room.bulkCreate(roomList)
+	} catch (err) {
+		console.error(err)
+	}
+})
 
 const app = express()
 
@@ -23,8 +33,11 @@ app.use(jsonParser)
 
 const stream = new Sse()
 
+const userRouter = require("./user/router")
+const roomFactory = require("./room/router")
 const roomRouter = roomFactory(stream)
 app.use(roomRouter)
+app.use(userRouter)
 
 app.get("/", (req, res) => {
 	stream.send("test")
