@@ -1,11 +1,35 @@
 const { Router } = require("express")
 const Room = require("./model")
-const router = new Router()
+const User = require("../user/model")
 
 function factory(stream) {
 	const router = new Router()
 
-	router.post("room", async (req, res, next) => {
+	router.put("/join", async (req, res, next) => {
+		try {
+			const user = await User.update(
+				{
+					roomId: req.body.roomId
+				},
+				{
+					where: {
+						id: req.body.userId
+					}
+				}
+			)
+			const allRooms = await Room.findAll({ include: [User] })
+			const action = {
+				type: "ALL_ROOMS",
+				payload: allRooms
+			}
+			const string = JSON.stringify(action)
+			stream.send(string)
+			res.send(user)
+		} catch (err) {
+			next(err)
+		}
+	})
+	router.post("/room", async (req, res, next) => {
 		try {
 			const room = await Room.create(req.body)
 
