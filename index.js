@@ -33,7 +33,8 @@ app.use(jsonParser)
 
 const stream = new Sse()
 
-const userRouter = require("./user/router")
+const userFactory = require("./user/router")
+const userRouter = userFactory(stream)
 const roomFactory = require("./room/router")
 const roomRouter = roomFactory(stream)
 app.use(roomRouter)
