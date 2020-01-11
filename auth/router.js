@@ -13,8 +13,8 @@ function factory(stream) {
 			})
 			if (!user) {
 				res
-					.send("Invalid name or password.")
 					.status(404)
+					.send("Invalid name or password.")
 					.end()
 			} else if (bcrypt.compareSync(password, user.password)) {
 				const data = { userId: user.id }
@@ -23,8 +23,8 @@ function factory(stream) {
 				res.send({ jwt: token }).end()
 			} else {
 				res
-					.send("Invalid name or password.")
 					.status(404)
+					.send("Invalid name or password.")
 					.end()
 			}
 		} catch (err) {
