@@ -20,6 +20,8 @@ function factory(stream) {
 				const data = { userId: user.id }
 				const token = toJWT(data)
 				console.log(token)
+				const action = { type: "LOG_IN_SUCCESS", payload: token }
+				stream.send(JSON.stringify(action))
 				res.send({ jwt: token }).end()
 			} else {
 				res
