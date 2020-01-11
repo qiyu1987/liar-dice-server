@@ -41,8 +41,11 @@ const userFactory = require("./user/router")
 const userRouter = userFactory(stream)
 const roomFactory = require("./room/router")
 const roomRouter = roomFactory(stream)
+const loginFactory = require("./auth/router")
+const loginRouter = loginFactory(stream)
 app.use(roomRouter)
 app.use(userRouter)
+app.use(loginRouter)
 
 app.get("/", (req, res) => {
 	stream.send("test")
