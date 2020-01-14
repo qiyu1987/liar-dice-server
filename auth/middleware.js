@@ -8,7 +8,7 @@ async function auth(req, res, next) {
 			const data = toData(auth[1])
 			const user = await User.findByPk(data.userId)
 			if (!user) return next("User does not exist")
-			req.user = user
+			req.user = user.dataValues
 			next()
 		} catch (err) {
 			res.status(400).send({

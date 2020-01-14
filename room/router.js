@@ -13,7 +13,7 @@ function factory(stream) {
 				},
 				{
 					where: {
-						id: req.body.userId
+						id: req.user.id
 					}
 				}
 			)
