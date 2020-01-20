@@ -1,11 +1,11 @@
 const { Router } = require("express")
 const Room = require("./model")
 const User = require("../user/model")
-
+const auth = require("../auth/middleware")
 function factory(stream) {
 	const router = new Router()
 
-	router.put("/join", async (req, res, next) => {
+	router.put("/join", auth, async (req, res, next) => {
 		try {
 			const user = await User.update(
 				{
@@ -13,7 +13,7 @@ function factory(stream) {
 				},
 				{
 					where: {
-						id: req.body.userId
+						id: req.user.id
 					}
 				}
 			)
@@ -29,7 +29,7 @@ function factory(stream) {
 			next(err)
 		}
 	})
-	router.post("/room", async (req, res, next) => {
+	router.post("/room", auth, async (req, res, next) => {
 		try {
 			const room = await Room.create(req.body)
 

@@ -1,4 +1,5 @@
 const express = require("express")
+const bcrypt = require("bcrypt")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const Sse = require("json-sse")
@@ -8,7 +9,10 @@ const Room = require("./room/model")
 const User = require("./user/model")
 db.sync({ force: true }).then(async () => {
 	try {
-		const userList = [{ name: "yuki" }, { name: "xiaodan" }]
+		const userList = [
+			{ name: "x", password: bcrypt.hashSync("x", 10) },
+			{ name: "y", password: bcrypt.hashSync("x", 10) }
+		]
 		await User.bulkCreate(userList)
 		const roomList = [{ name: "room1" }, { name: "room2" }]
 		await Room.bulkCreate(roomList)
@@ -37,8 +41,11 @@ const userFactory = require("./user/router")
 const userRouter = userFactory(stream)
 const roomFactory = require("./room/router")
 const roomRouter = roomFactory(stream)
+const loginFactory = require("./auth/router")
+const loginRouter = loginFactory(stream)
 app.use(roomRouter)
 app.use(userRouter)
+app.use(loginRouter)
 
 app.get("/", (req, res) => {
 	stream.send("test")
