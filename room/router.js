@@ -47,16 +47,17 @@ function factory(stream) {
 			next(err)
 		}
 	})
+	router.put("/start", auth, async (req, res, next) => {
+		try {
+			const { roomId } = req.user
+			const room = await Room.findByPk(roomId)
+			await room.update({ status: "PLAYING" })
+		} catch (err) {
+			next(err)
+		}
+	})
 
 	return router
 }
-
-// router.get("/rooms", (req, res, next) => {
-// 	Room.findAll()
-// 		.then(rooms => {
-// 			res.send(rooms)
-// 		})
-// 		.catch(next)
-// })
 
 module.exports = factory

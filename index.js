@@ -9,13 +9,13 @@ const Room = require("./room/model")
 const User = require("./user/model")
 db.sync({ force: true }).then(async () => {
 	try {
-		const userList = [
-			{ name: "x", password: bcrypt.hashSync("x", 10) },
-			{ name: "y", password: bcrypt.hashSync("x", 10) }
-		]
-		await User.bulkCreate(userList)
 		const roomList = [{ name: "room1" }, { name: "room2" }]
 		await Room.bulkCreate(roomList)
+		const userList = [
+			{ name: "x", password: bcrypt.hashSync("x", 10), roomId: 1 },
+			{ name: "y", password: bcrypt.hashSync("x", 10), roomId: 1 }
+		]
+		await User.bulkCreate(userList)
 	} catch (err) {
 		console.error(err)
 	}
@@ -55,7 +55,7 @@ app.get("/", (req, res) => {
 
 app.get("/stream", async (req, res, next) => {
 	try {
-		const rooms = await Room.findAll()
+		const rooms = await Room.findAll({ include: [User] })
 
 		const action = {
 			type: "ALL_ROOMS",

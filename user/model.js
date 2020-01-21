@@ -10,6 +10,10 @@ const User = db.define("user", {
 	password: {
 		type: Sequelize.STRING,
 		allowNull: false
+	},
+	roll: {
+		type: Sequelize.ARRAY(Sequelize.ENUM(["1", "2", "3", "4", "5", "6"])),
+		defaultValue: ["1", "1", "1", "1", "1"]
 	}
 })
 

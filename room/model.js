@@ -7,6 +7,11 @@ const Room = db.define("room", {
 		type: Sequelize.STRING,
 		allowNull: false,
 		unique: true
+	},
+	status: {
+		type: Sequelize.ENUM(["EMPTY", "WAITING", "READY", "PLAYING", "DONE"]),
+		allowNull: false,
+		defaultValue: "EMPTY"
 	}
 })
 Room.hasMany(User)
